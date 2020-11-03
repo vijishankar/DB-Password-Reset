@@ -70,8 +70,8 @@ else
 Write-Output " keyVault already presented"
 }
 
- $secretName = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName
-                   $secretName_Exist = $secretName.Name
+ $secretNamee = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName
+                   $secretName_Exist = $secretNamee.Name
   $secretValue = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName
   $secretValue_Exist = $secretValue.SecretValue
        if(!$secretName_Exist)
