@@ -11,7 +11,7 @@ $SeverName = $SQLSeverName
 $KeyVaultName = $KeyVault
 $SecretName = $Secret
 
- $sqlserver = Get-AzureRmSqlServer -ResourceGroupName $ResourceGroupName
+ $sqlserver = Get-AzureRmSqlServer -ResourceGroupName $ResourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
  $keyVault=Get-AzureRMKeyVault -VaultName $keyVaultName -ErrorVariable notPresent -ErrorAction SilentlyContinue
  
 
