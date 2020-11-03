@@ -1,6 +1,6 @@
 param(
 	[Parameter(Mandatory=$true, ValueFromPipeline=$true)]
-          [String] $SecretName
+          [String] $SecretValue
 	 )
 
 $ResourceGroupName = "DB-reset-psd-RG"
@@ -73,22 +73,18 @@ else
 Write-Output " keyVault already presented"
 }
 
-$secret = $SecretName 
- #$secretNamee = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -ErrorVariable notPresent -ErrorAction SilentlyContinue
-                   #$secretName_Exist = $secretNamee.Name
-       #if(!$secretName_Exist)
-		      #{
-			  
-		         # Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -SecretValue  $SecureStringpwd 
-	                 # Write-Output "Secret created successfully"
-			 #  }
-	       if($secret)
-	            { 
-				 Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -SecretValue  $SecureStringpwd 
-	                         Write-Output "SecretValue updated"
-
-                 }  		      
-
+		      $secretName_Exists=(Get-AzureKeyVaultSecret -VaultName $keyVaultName -Name $SecretName).Name
+		      
+		      if(!secretName_Exists)
+		      {
+		          Set-AzureKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -SecretValue  $SecureStringpwd 
+	                  Write-Output "Secret created successfully"
+			}
+			elseif($SecretValue -ne $SecureStringpwd)   
+			{
+		          Set-AzureKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -SecretValue  $SecureStringpwd 
+	                  Write-Output "SecretValue updated"
+	}
 
 }
 
