@@ -70,15 +70,17 @@ else
 Write-Output " keyVault already presented"
 }
 
- $secretName_Exists=(Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName).Name
-  $secretValue_Exists=(Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName).SecretValueText
-       if(!$secretName_Exists)
+ $secretName = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName
+                   $secretName_Exist = $secretName.Name
+  $secretValue = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName
+  $secretValue_Exist = $secretValue.SecretValue
+       if(!$secretName_Exist)
 		      {
 			  
 		          Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -SecretValue  $SecureStringpwd 
 	                  Write-Output "Secret created successfully"
 			   }
-	       elseif($secretValue_Exists -ne $secretValue)
+	       elseif($secretValue_Exist -ne $secretValue)
 	            { 
 				 Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -SecretValue  $SecureStringpwd 
 	                         Write-Output "SecretValue updated"
