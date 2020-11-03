@@ -2,7 +2,7 @@
 
 $ResourceGroupName = "DB-reset-psd-RG"
 $SeverName = "sqlserver222"
-$KeyVaultName = "password-reset-valt"
+$KeyVaultName = "pswd-reset-vault"
 $SecretName = "password"
 
  $sqlserver = Get-AzSqlServer -ResourceGroupName $ResourceGroupName -ServerName $SeverName -ErrorVariable notPresent -ErrorAction SilentlyContinue
