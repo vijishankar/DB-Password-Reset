@@ -70,7 +70,7 @@ else
 Write-Output " keyVault already presented"
 }
 
-$secret = get-azurekeyvaultsecret -VaultName $keyVaultName -Name $secretName
+$secret = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName
 $secretValue_Exist = '';
  $ssPtr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secret.SecretValue)
  try {
