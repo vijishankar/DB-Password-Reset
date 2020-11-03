@@ -70,17 +70,24 @@ else
 Write-Output " keyVault already presented"
 }
 
- $secretNamee = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -ErrorVariable notPresent -ErrorAction SilentlyContinue
-                   $secretName_Exist = $secretNamee.Name
-  $secretValue = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -ErrorVariable notPresent -ErrorAction SilentlyContinue
-  $secretValue_Exist = $secretValue.SecretValue | ConvertFrom-SecureString -AsPlainText
-       if(!$secretName_Exist)
-		      {
+$secret = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName
+$secretValue_Exist = '';
+ $ssPtr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secret.SecretValue)
+ try {
+    $secretValueText = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ssPtr)
+} finally {
+    [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ssPtr)
+}
+ 
+ #$secretNamee = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -ErrorVariable notPresent -ErrorAction SilentlyContinue
+                   #$secretName_Exist = $secretNamee.Name
+       #if(!$secretName_Exist)
+		      #{
 			  
-		          Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -SecretValue  $SecureStringpwd 
-	                  Write-Output "Secret created successfully"
-			   }
-	       elseif($secretValue_Exist -ne $secretValue)
+		         # Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -SecretValue  $SecureStringpwd 
+	                 # Write-Output "Secret created successfully"
+			 #  }
+	       if($secretValue_Exist -ne $secretValue)
 	            { 
 				 Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -SecretValue  $SecureStringpwd 
 	                         Write-Output "SecretValue updated"
