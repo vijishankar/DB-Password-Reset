@@ -74,7 +74,7 @@ $secret = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName
 $secretValue_Exist = '';
  $ssPtr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secret.SecretValue)
  try {
-    $secretValueText = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ssPtr)
+    $secretValue_Exist = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ssPtr)
 } finally {
     [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ssPtr)
 }
