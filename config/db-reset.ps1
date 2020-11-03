@@ -1,10 +1,16 @@
 [CmdletBinding()]
 param(
-        $ResourceGroupName,
-	$SeverName,
-	$KeyVaultName,
-	$SecretName
+        $RGName,
+	$SQLSeverName,
+	$KeyVault,
+	$Secret
 )
+
+$ResourceGroupName = $RGName
+$SeverName = $SQLSeverName
+$KeyVaultName = $KeyVault
+$SecretName = $Secret
+
 	 
 
  $sqlserver = Get-AzureRmSqlServer -ResourceGroupName $ResourceGroupName
