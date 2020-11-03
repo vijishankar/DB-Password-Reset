@@ -1,15 +1,9 @@
-[CmdletBinding()]
-param(
-       [Parameter] [string] $RGName,
-       [Parameter] [string]$SQLSeverName,
-	[Parameter] [string] $KeyVault,
-	[Parameter] [string] $Secret
-)
 
-$ResourceGroupName = $RGName
-$SeverName = $SQLSeverName
-$KeyVaultName = $KeyVault
-$SecretName = $Secret
+
+$ResourceGroupName = "DB-Reset_RG"
+$SeverName = "sqlserver222"
+$KeyVaultName = "password-reset-valt"
+$SecretName = "password"
 
  $sqlserver = Get-AzureRmSqlServer -ResourceGroupName $ResourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
  $keyVault=Get-AzureRMKeyVault -VaultName $keyVaultName -ErrorVariable notPresent -ErrorAction SilentlyContinue
