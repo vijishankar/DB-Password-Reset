@@ -1,9 +1,11 @@
-
+param(
+	[Parameter] [string] $SecretName
+	 )
 
 $ResourceGroupName = "DB-reset-psd-RG"
 $SeverName = "sqlserv123"
 $KeyVaultName = "pswd-reset-vault"
-$SecretName = "password"
+
 
  $sqlserver = Get-AzSqlServer -ResourceGroupName $ResourceGroupName -ServerName $SeverName -ErrorVariable notPresent -ErrorAction SilentlyContinue
  $keyVault= Get-AzKeyVault -VaultName $keyVaultName -ErrorVariable notPresent -ErrorAction SilentlyContinue
