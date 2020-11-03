@@ -1,4 +1,4 @@
-[CmdletBinding()]
+
 param(
         $RGName,
 	$SQLSeverName,
