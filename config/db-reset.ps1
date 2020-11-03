@@ -73,14 +73,11 @@ else
 Write-Output " keyVault already presented"
 }
 
-		      $secretName_Exists=(Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $SecretName).Name
 		      
-		      if(!secretName_Exists)
-		      {
 		          Set-AzureKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -SecretValue  $SecureStringpwd 
 	                  Write-Output "Secret created successfully"
-			}
-			elseif($SecretValue -ne $SecureStringpwd)   
+			
+			if($SecretValue -ne $SecureStringpwd)   
 			{
 		          Set-AzureKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -SecretValue  $SecureStringpwd 
 	                  Write-Output "SecretValue updated"
