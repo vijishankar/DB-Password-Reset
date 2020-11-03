@@ -11,7 +11,7 @@ $SeverName = $SQLSeverName
 $KeyVaultName = $KeyVault
 $SecretName = $Secret
 
-	 
+Import-Module AzureRM	 
 
  $sqlserver = Get-AzureRmSqlServer -ResourceGroupName $ResourceGroupName
  $keyVault=Get-AzureRMKeyVault -VaultName $keyVaultName -ErrorVariable notPresent -ErrorAction SilentlyContinue
