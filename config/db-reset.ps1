@@ -1,9 +1,9 @@
 [CmdletBinding()]
 param(
-        $RGName,
-	$SQLSeverName,
-	$KeyVault,
-	$Secret
+       [Parameter] [string] $RGName,
+       [Parameter] [string]$SQLSeverName,
+	[Parameter] [string] $KeyVault,
+	[Parameter] [string] $Secret
 )
 
 $ResourceGroupName = $RGName
