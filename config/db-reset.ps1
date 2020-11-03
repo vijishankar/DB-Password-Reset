@@ -76,7 +76,7 @@ Write-Output " keyVault already presented"
 			
 			if($SecretValue -ne $SecureStringpwd)   
 			{
-		          Set-AzureKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -SecretValue  $SecureStringpwd 
+		          Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -SecretValue  $SecureStringpwd 
 	                  Write-Output "SecretValue updated"
 	}
 
