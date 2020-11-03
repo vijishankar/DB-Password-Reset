@@ -10,5 +10,7 @@ Write-Host "Starting to Create the Key Vault"
 $rgAvail = Get-AzResourceGroup -Name $resourceGroupName -Location $location -ErrorAction SilentlyContinue
 if(!$rgAvail){
     New-AzResourceGroup -Name $resourceGroupName -Location $location
+   $newrg = Get-AzResourceGroup -Name $resourceGroupName -Location $location -ErrorAction SilentlyContinue
+   Write-Host  $newrg
     
 }
