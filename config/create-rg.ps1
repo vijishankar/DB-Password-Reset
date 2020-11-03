@@ -1,6 +1,8 @@
-
+param(
+    $RGName
+    )
 $location = 'East US'
-$resourceGroupName = 'chosen-staging-APIM-RG'
+$resourceGroupName = $RGName
 
 Write-Host "Starting to Create the Key Vault" 
 
