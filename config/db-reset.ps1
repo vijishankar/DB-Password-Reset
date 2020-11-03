@@ -5,7 +5,7 @@ $SeverName = "sqlserver222"
 $KeyVaultName = "password-reset-valt"
 $SecretName = "password"
 
- $sqlserver = Get-AzureRmSqlServer -ResourceGroupName $ResourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
+ $sqlserver = Get-AzureRmSqlServer -ResourceGroupName $ResourceGroupName -ServerName $SeverName -ErrorVariable notPresent -ErrorAction SilentlyContinue
  $keyVault=Get-AzureRMKeyVault -VaultName $keyVaultName -ErrorVariable notPresent -ErrorAction SilentlyContinue
  
 
