@@ -15,7 +15,7 @@ if($sqlserver)
 {
 
 #Generating Random Password from RandomCharacters Method
-$Resetpassword = -join((65..90) + (97..122) + (58..64) + (58..64) + (32..47)  | Get-Random -Count 12 | % {[char]$_})
+$Resetpassword = -join((65..90) + (97..122) + (58..64) + (58..64) + (32..47)  | Get-Random -Count 15 | % {[char]$_})
 Write-Host $Resetpassword
 Write-Output $Resetpassword
 
