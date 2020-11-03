@@ -1,7 +1,7 @@
 
 
 $ResourceGroupName = "DB-reset-psd-RG"
-$SeverName = "sqlserver222"
+$SeverName = "sqlserv123"
 $KeyVaultName = "pswd-reset-vault"
 $SecretName = "password"
 
