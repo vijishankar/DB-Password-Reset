@@ -68,6 +68,7 @@ Set-AzKeyVaultAccessPolicy `
 else 
 {
 Write-Output " keyVault already presented"
+}
 
  $secretName_Exists=(Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName).Name
   $secretValue_Exists=(Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName).SecretValueText
@@ -83,7 +84,7 @@ Write-Output " keyVault already presented"
 	                         Write-Output "SecretValue updated"
 
                  }  		      
-}
+
 
 }
 
