@@ -1,6 +1,6 @@
 param(
 	[Parameter(Mandatory=$true, ValueFromPipeline=$true)]
-          [String] $SecretName,
+          [String] $SecretName
 	 )
 
 $ResourceGroupName = "DB-reset-psd-RG"
