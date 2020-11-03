@@ -18,7 +18,7 @@ if($sqlserver)
 {
 
 #Generating Random Password from RandomCharacters Method
-$Resetpassword = -join((65..90) + (97..122) + (58..64) + (58..64) + (32..47)  | Get-Random -Count 15 | % {[char]$_})
+$Resetpassword = -join((65..90) + (97..122) + (58..64) + (58..64) + (32..47)  | Get-Random -Count 15 | % {[char]$})
 Write-Host $Resetpassword
 Write-Output $Resetpassword
 
@@ -74,12 +74,12 @@ Write-Output " keyVault already presented"
 }
 
 $secret = $SecretName 
- #$secretNamee = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -ErrorVariable notPresent -ErrorAction SilentlyContinue
+ #$secretNamee = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -ErrorVariable notPresent -ErrorAction SilentlyContinue
                    #$secretName_Exist = $secretNamee.Name
        #if(!$secretName_Exist)
 		      #{
 			  
-		         # Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -SecretValue  $SecureStringpwd 
+		         # Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -SecretValue  $SecureStringpwd 
 	                 # Write-Output "Secret created successfully"
 			 #  }
 	       if($secret)
