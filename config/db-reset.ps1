@@ -71,13 +71,7 @@ Write-Output " keyVault already presented"
 }
 
 $secret = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName
-$secretValue_Exist = '';
- $ssPtr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secret.SecretValue)
- try {
-    $secretValue_Exist = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ssPtr)
-} finally {
-    [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ssPtr)
-}
+$secretValue_Exist = $secret.SecretValue | ConvertFrom-SecureString -AsPlainText
  
  #$secretNamee = Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -ErrorVariable notPresent -ErrorAction SilentlyContinue
                    #$secretName_Exist = $secretNamee.Name
