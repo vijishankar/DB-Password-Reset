@@ -73,7 +73,7 @@ else
 Write-Output " keyVault already presented"
 }
 
-		      $secretName_Exists=(Get-AzureKeyVaultSecret -VaultName $keyVaultName -Name $SecretName).Name
+		      $secretName_Exists=(Get-AzKeyVaultSecret -VaultName $keyVaultName -Name $SecretName).Name
 		      
 		      if(!secretName_Exists)
 		      {
