@@ -3,7 +3,7 @@ param(
 [Parameter(Mandatory=$true, ValueFromPipeline=$true)] [String] $SeverName,
 [Parameter(Mandatory=$true, ValueFromPipeline=$true)] [String] $KeyVaultName,
 [Parameter(Mandatory=$true, ValueFromPipeline=$true)] [String] $SecretName,
-[Parameter(Mandatory=$true, ValueFromPipeline=$true)] [String] $SecretValue
+[Parameter(ValueFromPipeline=$true)] [String] $SecretValue
 )
 
 #$ResourceGroupName = "DB-Rest-Passwd"
