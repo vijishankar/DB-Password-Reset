@@ -1,11 +1,15 @@
 param(
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true)] [String] $ResourceGroupName,
+	[Parameter(Mandatory=$true, ValueFromPipeline=$true)] [String] $SeverName,
+	[Parameter(Mandatory=$true, ValueFromPipeline=$true)] [String] $KeyVaultName,
+	[Parameter(Mandatory=$true, ValueFromPipeline=$true)] [String] $SecretName,
 	[Parameter(Mandatory=$true, ValueFromPipeline=$true)] [String] $SecretValue
 	 )
 
-$ResourceGroupName = "DB-Rest-Passwd"
-$SeverName = "sqlserve123456"
-$KeyVaultName = "secret-db-passwd"
-$SecretName = "password"
+#$ResourceGroupName = "DB-Rest-Passwd"
+#$SeverName = "sqlserve123456"
+#$KeyVaultName = "secret-db-passwd"
+#$SecretName = "password"
 
  $sqlserver = Get-AzSqlServer -ResourceGroupName $ResourceGroupName -ServerName $SeverName -ErrorVariable notPresent -ErrorAction SilentlyContinue
  $keyVault= Get-AzKeyVault -VaultName $keyVaultName -ErrorVariable notPresent -ErrorAction SilentlyContinue
