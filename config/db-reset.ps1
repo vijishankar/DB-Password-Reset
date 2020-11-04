@@ -35,7 +35,7 @@ Write-Output $newpsswd
 			
 			if($SecretValue -ne $SecureStringpwd)   
 			{
-		          Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -SecretValue  $SecureStringpwd 
+		          Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -SecretValue $SecureStringpwd 
 	                  Write-Output "SecretValue updated"
 	                }
           }
