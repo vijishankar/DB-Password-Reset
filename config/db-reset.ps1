@@ -1,6 +1,5 @@
 param(
-	[Parameter(Mandatory=$true, ValueFromPipeline=$true)]
-          [String] $SecretValue
+	[Parameter(Mandatory=$true, ValueFromPipeline=$true)] [String] $SecretValue
 	 )
 
 $ResourceGroupName = "DB-reset-psd-RG"
@@ -29,50 +28,6 @@ Set-AzSqlServer -ResourceGroupName $ResourceGroupName -ServerName $SeverName -Sq
 
 Write-Host $newpsswd
 Write-Output $newpsswd
-
-#Setting Password to the keayvalt
-if (!$keyVault)
-{
-#creating Keyvault in azure
-New-AzKeyVault -VaultName $keyVaultName -ResourceGroupName $ResourceGroupName -Location $location -SKU $SKU
-# assigning Access policies to user
-Set-AzKeyVaultAccessPolicy -VaultName $keyVaultName -ResourceGroupName $ResourceGroupName -EnabledForDeployment
-Set-AzKeyVaultAccessPolicy -VaultName $keyVaultName -ResourceGroupName $ResourceGroupName -EnabledForTemplateDeployment
-Set-AzKeyVaultAccessPolicy -VaultName $keyVaultName -ResourceGroupName $ResourceGroupName -EnabledForDiskEncryption
-
-Set-AzKeyVaultAccessPolicy `
-		-VaultName $keyVaultName `
-		-ResourceGroupName $ResourceGroupName   `
-		-PermissionsToCertificates list,get,create,import,update,managecontacts,getissuers,listissuers,setissuers,deleteissuers,manageissuers,recover,purge,backup,restore `
-        -PermissionsToKeys decrypt,encrypt,unwrapKey,wrapKey,verify,sign,get,list,update,create,import,delete,backup,restore,recover,purge `
-        -PermissionsToSecrets list,get,set,delete,recover,backup,restore `
-		-ServicePrincipalName "89c7c89c-b8cb-4d4c-b7d3-53294cdff2b6"
-Set-AzKeyVaultAccessPolicy `
-		-VaultName $keyVaultName `
-		-ResourceGroupName $ResourceGroupName   `
-		-PermissionsToCertificates list,get,create,import,update,managecontacts,getissuers,listissuers,setissuers,deleteissuers,manageissuers,recover,purge,backup,restore `
-        -PermissionsToKeys decrypt,encrypt,unwrapKey,wrapKey,verify,sign,get,list,update,create,import,delete,backup,restore,recover,purge `
-        -PermissionsToSecrets list,get,set,delete,recover,backup,restore `
-		-ServicePrincipalName "49249ac9-68b4-4dc4-b01d-1a6be7278d74"
-Set-AzKeyVaultAccessPolicy `
-		-VaultName $keyVaultName `
-		-ResourceGroupName $ResourceGroupName   `
-		-PermissionsToCertificates list,get,create,import,update,managecontacts,getissuers,listissuers,setissuers,deleteissuers,manageissuers,recover,purge,backup,restore `
-        -PermissionsToKeys decrypt,encrypt,unwrapKey,wrapKey,verify,sign,get,list,update,create,import,delete,backup,restore,recover,purge `
-        -PermissionsToSecrets list,get,set,delete,recover,backup,restore `
-		-ServicePrincipalName "25c6921e-e711-4216-bc90-02aac4eb37c2"
-Set-AzKeyVaultAccessPolicy `
-        -VaultName $keyVaultName -BypassObjectIdValidation -ResourceGroupName $ResourceGroupName `
-        -ObjectId $userObjectId  `
-        -PermissionsToCertificates list,get,create,import,update,managecontacts,getissuers,listissuers,setissuers,deleteissuers,manageissuers,recover,purge,backup,restore `
-        -PermissionsToKeys decrypt,encrypt,unwrapKey,wrapKey,verify,sign,get,list,update,create,import,delete,backup,restore,recover,purge `
-        -PermissionsToSecrets list,get,set,delete,recover,backup,restore
-   }
-else 
-{
-Write-Output " keyVault already presented"
-}
-
 			
 			if($SecretValue -ne $SecureStringpwd)   
 			{
