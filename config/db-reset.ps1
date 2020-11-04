@@ -11,10 +11,6 @@ param(
 #$KeyVaultName = "secret-db-passwd"
 #$SecretName = "password"
 
-
-Write-Host $SecretValue
-Write-Output $SecretValue
-
  $sqlserver = Get-AzSqlServer -ResourceGroupName $ResourceGroupName -ServerName $SeverName -ErrorVariable notPresent -ErrorAction SilentlyContinue
  $keyVault= Get-AzKeyVault -VaultName $keyVaultName -ErrorVariable notPresent -ErrorAction SilentlyContinue
  
