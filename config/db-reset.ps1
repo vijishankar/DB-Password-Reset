@@ -2,9 +2,9 @@ param(
 	[Parameter(Mandatory=$true, ValueFromPipeline=$true)] [String] $SecretValue
 	 )
 
-$ResourceGroupName = "DB-reset-psd-RG"
-$SeverName = "sqlserv123"
-$KeyVaultName = "pswd-reset-vault"
+$ResourceGroupName = "DB-Rest-Passwd"
+$SeverName = "sqlserve123456"
+$KeyVaultName = "secret-db-passwd"
 $SecretName = "password"
 
  $sqlserver = Get-AzSqlServer -ResourceGroupName $ResourceGroupName -ServerName $SeverName -ErrorVariable notPresent -ErrorAction SilentlyContinue
@@ -14,7 +14,7 @@ $SecretName = "password"
 function changePassword()
 {
 if($sqlserver)
-{
+          {
 
 #Generating Random Password from RandomCharacters Method
 $Resetpassword = -join((65..90) + (97..122) + (58..64) + (58..64) + (32..47)  | Get-Random -Count 15 | % {[char]$_})
@@ -33,9 +33,8 @@ Write-Output $newpsswd
 			{
 		          Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $SecretName -SecretValue  $SecureStringpwd 
 	                  Write-Output "SecretValue updated"
-	}
-
-}
+	                }
+          }
 
 else{
 Write-Host "There is no Sql Server in the given Resource Group"
