@@ -1,0 +1,141 @@
+
+$connectionName = "AzureRunAsConnection"
+try
+{
+    # Get the connection "AzureRunAsConnection "
+    $servicePrincipalConnection = Get-AutomationConnection -Name $connectionName      
+    "Logging in to Azure..."
+    $account = Add-AzureRmAccount `
+        -ServicePrincipal `
+        -TenantId $servicePrincipalConnection.TenantId `
+        -ApplicationId $servicePrincipalConnection.ApplicationId `
+        -CertificateThumbprint $servicePrincipalConnection.CertificateThumbprint 
+}
+catch {
+    if (!$servicePrincipalConnection)
+    {
+        $ErrorMessage = "Connection $connectionName not found."
+        throw $ErrorMessage
+    } else{
+        Write-Error -Message $_.Exception
+        throw $_.Exception
+    }
+}
+
+$n = "`r`n`r`n"
+$contentType = 'text/plain'
+function DB-Usage-Details()
+{
+    $IgnoreDB = @('master', 'SSISDB')
+    $AzSqlServers = Get-AzureRmSqlServer
+    Foreach ($SQlServer in  $AzSqlServers)
+        {
+            $SQlServerName = $SQlServer.ServerName
+            #Write-Output $SQlServerName
+            $ResourceGroupName = $SQlServer.ResourceGroupName
+            #Write-Output $ResourceGroupName
+            $SQLDatabases = Get-AzureRmSqlDatabase -ServerName $SQlServerName -ResourceGroupName $ResourceGroupName | Where-Object { $_.DatabaseName -notin $IgnoreDB }     
+            
+            Foreach ($db_resource in $SQLDatabases)
+            {
+                $databasename = $db_resource.DatabaseName
+                
+                # Database maximum storage size
+                $db_MaximumStorageSize = $db_resource.MaxSizeBytes / 1GB
+                
+                $db_MaximumStorageSize1 = $db_resource.MaxSizeBytes / 1MB
+                $db_resource_id = $db_resource.ResourceId
+                
+                 # Database used space
+                $db_metric_storage = Get-AzureRmMetric -MetricName 'storage' -ResourceId $db_resource_id -WarningAction SilentlyContinue
+                $db_UsedSpace = $db_metric_storage.Data.Maximum | Select-Object -Last 1
+                $db_UsedSpace = [math]::Round($db_UsedSpace / 1MB, 2)
+                
+
+                # Database allocated space
+                $db_metric_allocated_data_storage = Get-AzureRmMetric -MetricName 'allocated_data_storage' -ResourceId $db_resource_id -WarningAction SilentlyContinue
+                $db_AllocatedSpace = $db_metric_allocated_data_storage.Data.Average | Select-Object -Last 1
+                $db_AllocatedSpace = [math]::Round($db_AllocatedSpace / 1MB, 2) 
+                
+              
+                if($db_AllocatedSpace -ne 0)
+                    {
+                        $percentage = (($db_AllocatedSpace / $db_MaximumStorageSize1) * 100)
+                        if($percentage -ge 1)
+                           {
+                                Write-Output "This Database reached space above $percentage"
+                                Write-Output "Database Name = $databasename "
+                                Write-Output "Resource ID = $db_resource_id "
+                                Write-Output "DB Used Space = $db_UsedSpace MB"
+                                Write-Output "DB Allocated Space =  $db_AllocatedSpace MB"
+                                Write-Output "DB Maximum Storage Size = $db_MaximumStorageSize GB"
+								
+								$contentBody = "This Database reached storage space above $percentage"
+								"Database Name = $databasename "
+								
+								
+								Send-SendGridEmail($contentBody)
+                            }
+                    }
+            }
+        }
+}
+
+
+
+
+function Send-SendGridEmail($contentBody) {
+$vault = "WV-kv"
+$Secret ="apikeysecret"
+$apiKey = (Get-AzureKeyVaultSecret -VaultName $vault  -Name $Secret ).SecretValueText
+  
+  
+  $headers = @{
+    'Authorization' = 'Bearer ' + $apiKey
+    'Content-Type'  = 'application/json'
+  }
+
+  $body = @{
+    personalizations = @(
+      @{
+        to = @(
+          @{
+            email = $destEmailAddress
+          }
+        )
+      }
+    )
+    from             = @{
+      email = $fromEmailAddress
+    }
+    subject          = $subject
+    content          = @(
+      @{
+        type  = $contentType
+        value = $contentBody
+      }
+    )
+  }
+
+  try {
+    $bodyJson = $body | ConvertTo-Json -Depth 4
+  }
+  catch {
+    $ErrorMessage = $_.Exception.message
+    write-error ('Error converting body to json ' + $ErrorMessage)
+    Break
+  }
+
+  try {
+    Invoke-RestMethod -Uri https://api.sendgrid.com/v3/mail/send -Method Post -Headers $headers -Body $bodyJson
+  }
+  catch {
+    $ErrorMessage = $_.Exception.message
+    write-error ('Error with Invoke-RestMethod ' + $ErrorMessage)
+    Break
+  }
+
+}
+
+
+DB-Usage-Details
